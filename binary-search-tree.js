@@ -16,7 +16,7 @@ class Tree {
   }
 
   #sortArray(array) {
-   return array.sort((a, b) => a - b);
+    return array.sort((a, b) => a - b);
   }
 
   #cleanArray(array) {
@@ -72,8 +72,37 @@ class Tree {
       this.prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     }
   }
+
+  insertIterative(value) {
+    const node = new Node(value);
+
+    if (this.root === null) {
+      this.root = node;
+      return;
+    }
+
+    let prev = null;
+    let temp = this.root;
+
+    while (temp !== null) {
+      if (temp.data > value) {
+        prev = temp;
+        temp = temp.left;
+      } else if (temp.data < value) {
+        prev = temp;
+        temp = temp.right;
+      }
+    }
+
+    if (prev.data > value) {
+      prev.left = node;
+    } else {
+      prev.right = node;
+    }
+  }
 }
 
-const sortedArray = [1, 2, 5, 2, 3, 4, 5, 5, 6, 7];
-const BST = new Tree(sortedArray);
+const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const BST = new Tree(array);
+BST.insertIterative(2);
 BST.prettyPrint(BST.root);

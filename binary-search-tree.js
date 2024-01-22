@@ -15,8 +15,16 @@ class Tree {
     return [...new Set(array)];
   }
 
+  #sortArray(array) {
+   return array.sort((a, b) => a - b);
+  }
+
+  #cleanArray(array) {
+    return this.#sortArray(this.#removeDuplicates(array));
+  }
+
   #buildTree(array) {
-    array = this.#removeDuplicates(array);
+    array = this.#cleanArray(array);
     if (array.length === 0) return null;
 
     const mid = Math.floor(array.length / 2);
@@ -53,7 +61,11 @@ class Tree {
       return;
     }
     if (node.right !== null) {
-      this.prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+      this.prettyPrint(
+        node.right,
+        `${prefix}${isLeft ? '│   ' : '    '}`,
+        false
+      );
     }
     console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
     if (node.left !== null) {
@@ -62,6 +74,6 @@ class Tree {
   }
 }
 
-const sortedArray = [1, 2, 3, 4, 5, 5, 6, 7];
+const sortedArray = [1, 2, 5, 2, 3, 4, 5, 5, 6, 7];
 const BST = new Tree(sortedArray);
 BST.prettyPrint(BST.root);

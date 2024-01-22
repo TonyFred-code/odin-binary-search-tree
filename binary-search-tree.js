@@ -100,9 +100,29 @@ class Tree {
       prev.right = node;
     }
   }
+
+  insertRecursive(value) {
+    this.#insertRecursiveHelper(this.root, value);
+}
+
+#insertRecursiveHelper(root, value) {
+    if (root === null) {
+        root = new Node(value);
+        return root;
+    }
+
+    if (value < root.data) {
+        root.left = this.#insertRecursiveHelper(root.left, value);
+    } else if (value > root.data) {
+        root.right = this.#insertRecursiveHelper(root.right, value);
+    }
+
+    return root;
+}
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const BST = new Tree(array);
-BST.insertIterative(2);
+// BST.insertIterative(2);
+BST.insertRecursive(2);
 BST.prettyPrint(BST.root);

@@ -120,6 +120,61 @@ class Tree {
     return root;
   }
 
+  deleteIterative(value) {
+    let prev = null;
+    let node = this.root;
+
+    while (node !== null) {
+      if (node.data > value) {
+        prev = node;
+        node = node.left;
+      } else if (node.data < value) {
+        prev = node;
+        node = node.right;
+      } else {
+        break;
+      }
+    }
+
+    // deleting a leaf node;
+    if (node.right === null && node.left === null) {
+      if (prev.left !== null && prev.left.data === value) {
+        prev.left = null;
+        console.log('remove from left');
+      } else if (prev.right !== null && prev.right.data === value) {
+        prev.right = null;
+        console.log('remove from right');
+      }
+    } else if (node.right !== null && node.left === null) {
+      if (prev.left !== null && prev.left.data === value) {
+        prev.left = node.right;
+      } else if (prev.right !== null && prev.right.data === value) {
+        prev.right = node.right;
+      }
+    } else if (node.left !== null && node.right === null) {
+      if (prev.left !== null && prev.left.data === value) {
+        prev.left = node.left;
+      } else if (prev.right !== null && prev.right.data === value) {
+        prev.right = node.left;
+      }
+    } else {
+      let parent = node;
+      let successor = node.right;
+      while (successor.left !== null) {
+        parent = successor;
+        successor = successor.left;
+      }
+
+      if (parent !== node) {
+        parent.left = successor.right;
+      } else {
+        parent.right = successor.right;
+      }
+
+      node.data = successor.data;
+    }
+  }
+
   deleteRecursive(value) {
     this.#deleteRecursiveHelper(this.root, value);
   }
@@ -163,24 +218,30 @@ class Tree {
   }
 }
 
-const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const array = []; //1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+for (let i = 0; i < 24; i++) {
+  // if (i === 17 || i === 16) continue;
+  array.push(i);
+}
 const BST = new Tree(array);
 // BST.insertIterative(2);
 BST.insertRecursive(2);
 console.log('tree before deletion');
 BST.prettyPrint(BST.root);
-console.log('delete 2 - a leaf node');
-BST.deleteRecursive(2);
-console.log('delete 7 - another leaf node');
-BST.deleteRecursive(7);
-// console.log('delete a node with one child - left');
-// BST.deleteRecursive(3)
-// console.log('delete a node with one child - right');
-// BST.deleteRecursive(5)
-// console.log('delete a node with two children - 67');
-// BST.deleteRecursive(67);
-// console.log('delete a node with two children - 4');
-// BST.deleteRecursive(4);
+// console.log('delete a leaf node');
+//BST.deleteIterative(17); // turns node - 16 to leaf node;
+//console.log('delete another leaf node');
+//BST.deleteIterative(16); // tree no longer balanced;
+
+BST.deleteIterative(11); // turns node - 10 to a node with a left child;
+console.log('delete a node with only a right child');
+BST.deleteIterative(6);
+console.log('delete a node with only a left child');
+BST.deleteIterative(10);
+console.log('delete a node with both children');
+BST.deleteIterative(8);
+console.log('delete a node with both children');
+BST.deleteIterative(15);
 
 console.log('tree after deletion');
 BST.prettyPrint(BST.root);

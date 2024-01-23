@@ -136,6 +136,12 @@ class Tree {
       }
     }
 
+    if (node === null) {
+      console.log('odd')
+      console.log(prev);
+      return
+    }
+
     // deleting a leaf node;
     if (node.right === null && node.left === null) {
       if (prev.left !== null && prev.left.data === value) {
@@ -218,11 +224,11 @@ class Tree {
   }
 }
 
-const array = []; //1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-for (let i = 0; i < 24; i++) {
-  // if (i === 17 || i === 16) continue;
-  array.push(i);
-}
+const array =[1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+// for (let i = 0; i < 24; i++) {
+//   // if (i === 17 || i === 16) continue;
+//   array.push(i);
+// }
 const BST = new Tree(array);
 // BST.insertIterative(2);
 BST.insertRecursive(2);

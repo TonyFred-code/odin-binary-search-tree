@@ -143,12 +143,17 @@ class Tree {
 
     // deleting a leaf node;
     if (node.right === null && node.left === null) {
-      if (prev.left !== null && prev.left.data === value) {
-        prev.left = null;
-        console.log('remove from left');
-      } else if (prev.right !== null && prev.right.data === value) {
-        prev.right = null;
-        console.log('remove from right');
+      if (prev !== null) {
+        if (prev.left !== null && prev.left.data === value) {
+          prev.left = null;
+          console.log('remove from left');
+        } else if (prev.right !== null && prev.right.data === value) {
+          prev.right = null;
+          console.log('remove from right');
+        }
+      } else {
+        this.root = null;
+        console.log('remove root');
       }
     } else if (node.right !== null && node.left === null) {
       if (prev.left !== null && prev.left.data === value) {

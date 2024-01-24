@@ -137,9 +137,9 @@ class Tree {
     }
 
     if (node === null) {
-      console.log('odd')
+      console.log('odd');
       console.log(prev);
-      return
+      return;
     }
 
     // deleting a leaf node;
@@ -222,9 +222,28 @@ class Tree {
       return root;
     }
   }
+
+  find(value) {
+    let prev = null;
+    let node = this.root;
+
+    while (node !== null) {
+      if (node.data > value) {
+        prev = node;
+        node = node.left;
+      } else if (node.data < value) {
+        prev = node;
+        node = node.right;
+      } else if (node.data === value) {
+        return node;
+      }
+    }
+
+    return undefined;
+  }
 }
 
-const array =[1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 // for (let i = 0; i < 24; i++) {
 //   // if (i === 17 || i === 16) continue;
 //   array.push(i);
@@ -249,5 +268,6 @@ BST.deleteIterative(8);
 console.log('delete a node with both children');
 BST.deleteIterative(15);
 
+console.log(BST.find(1));
 console.log('tree after deletion');
 BST.prettyPrint(BST.root);

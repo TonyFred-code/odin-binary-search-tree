@@ -107,8 +107,7 @@ class Tree {
 
   #insertRecursiveHelper(root, value) {
     if (root === null) {
-      root = new Node(value);
-      return root;
+      return new Node(value);
     }
 
     if (value < root.data) {

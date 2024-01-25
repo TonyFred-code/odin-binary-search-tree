@@ -273,7 +273,7 @@ class Tree {
       if (node.left !== null) queue.push(node.left);
     }
 
-    if (callbackFnc) {
+    if (callbackFnc && typeof callbackFnc === 'function') {
       for (let node of nodes) {
         callbackFnc(node);
       }

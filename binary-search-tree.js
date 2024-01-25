@@ -260,22 +260,35 @@ class Tree {
 
     return undefined;
   }
+
+  levelOrderIterative(callbackFnc) {
+    const queue = [this.root];
+
+    while(queue.length !== 0) {
+      const node = queue.shift();
+      if (node === null) break;
+      callbackFnc(node);
+      if (node.right !== null) queue.push(node.right);
+      if (node.left !== null) queue.push(node.left);
+    }
+  }
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 const BST = new Tree(array);
-console.log('TREE BEFORE DELETION');
-BST.prettyPrint(BST.root);
-console.log('delete a leaf node');
-BST.deleteIterative(3);
-console.log('delete a leaf node');
-BST.deleteIterative(7);
-console.log('delete node with only one right child');
-BST.deleteIterative(5);
-console.log('delete node with only one left child');
-BST.deleteIterative(4)
-console.log('delete node with two children');
-BST.deleteIterative(67)
-console.log('TREE AFTER DELETION');
+// console.log('TREE BEFORE DELETION');
+// BST.prettyPrint(BST.root);
+// console.log('delete a leaf node');
+// BST.deleteIterative(3);
+// console.log('delete a leaf node');
+// BST.deleteIterative(7);
+// console.log('delete node with only one right child');
+// BST.deleteIterative(5);
+// console.log('delete node with only one left child');
+// BST.deleteIterative(4)
+// console.log('delete node with two children');
+// BST.deleteIterative(67)
+// console.log('TREE AFTER DELETION');
+BST.levelOrder((n) => console.log(n.data))
 BST.prettyPrint(BST.root);

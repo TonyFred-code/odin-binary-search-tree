@@ -263,15 +263,31 @@ class Tree {
 
   levelOrderIterative(callbackFnc) {
     const queue = [this.root];
+    const nodes = [];
 
     while(queue.length !== 0) {
       const node = queue.shift();
       if (node === null) break;
-      callbackFnc(node);
+      nodes.push(node);
       if (node.right !== null) queue.push(node.right);
       if (node.left !== null) queue.push(node.left);
     }
+
+    if (callbackFnc) {
+      for (let node of nodes) {
+        callbackFnc(node);
+      }
+    } else {
+      const values = []
+      for (let node of nodes) {
+        values.push(node.data);
+      }
+
+      return values;
+    }
   }
+
+
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
@@ -290,5 +306,5 @@ const BST = new Tree(array);
 // console.log('delete node with two children');
 // BST.deleteIterative(67)
 // console.log('TREE AFTER DELETION');
-BST.levelOrder((n) => console.log(n.data))
+console.log(BST.levelOrderIterative())
 BST.prettyPrint(BST.root);

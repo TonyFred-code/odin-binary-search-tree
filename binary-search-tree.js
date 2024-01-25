@@ -119,70 +119,85 @@ class Tree {
     return root;
   }
 
-  deleteIterative(value) {
-    let prev = null;
-    let node = this.root;
-
-    while (node !== null) {
-      if (node.data > value) {
-        prev = node;
-        node = node.left;
-      } else if (node.data < value) {
-        prev = node;
-        node = node.right;
-      } else {
-        break;
-      }
-    }
-
-    if (node === null) {
-      console.log('odd');
-      console.log(prev);
-      return;
-    }
-
-    // deleting a leaf node;
-    if (node.right === null && node.left === null) {
-      if (prev !== null) {
-        if (prev.left !== null && prev.left.data === value) {
-          prev.left = null;
-          console.log('remove from left');
-        } else if (prev.right !== null && prev.right.data === value) {
-          prev.right = null;
-          console.log('remove from right');
-        }
-      } else {
-        this.root = null;
-        console.log('remove root');
-      }
-    } else if (node.right !== null && node.left === null) {
-      if (prev.left !== null && prev.left.data === value) {
-        prev.left = node.right;
-      } else if (prev.right !== null && prev.right.data === value) {
-        prev.right = node.right;
-      }
-    } else if (node.left !== null && node.right === null) {
-      if (prev.left !== null && prev.left.data === value) {
-        prev.left = node.left;
-      } else if (prev.right !== null && prev.right.data === value) {
-        prev.right = node.left;
+  #handleLeafNode(parent, value) {
+    if (parent !== null) {
+      // Determine if it's the left or right child
+      if (parent.left !== null && parent.left.data === value) {
+        parent.left = null;
+      } else if (parent.right !== null && parent.right.data === value) {
+        parent.right = null;
       }
     } else {
-      let parent = node;
-      let successor = node.right;
-      while (successor.left !== null) {
-        parent = successor;
-        successor = successor.left;
-      }
-
-      if (parent !== node) {
-        parent.left = successor.right;
-      } else {
-        parent.right = successor.right;
-      }
-
-      node.data = successor.data;
+      // If there's no parent, it means we are deleting the root
+      this.root = null;
     }
+  }
+
+  #handleSingleChildNodeDeletion(parent, current, child) {
+    if (parent !== null) {
+      // Determine if it's the left or right child
+      if (parent.left !== null && parent.left.data == current.data) {
+        parent.left = child;
+      } else if (parent.right !== null && parent.right.data === current.data) {
+        parent.right = child;
+      }
+    } else {
+      // If there's no parent, it means we are deleting the root
+      this.root = child;
+    }
+  }
+
+  #handleTwoChildrenNodeDeletion(current) {
+    let successorParent = current;
+    let successor = current.right;
+
+    while (successor.left !== null) {
+      successorParent = successor;
+      successor = successor.left;
+    }
+
+    if (successorParent !== current) {
+      successorParent.left = successor.right;
+    } else {
+      successorParent.right = successor.right;
+    }
+
+    current.data = successor.data;
+  }
+
+  deleteIterative(value) {
+    let parent = null;
+    let current = this.root;
+
+    while (current !== null) {
+      if (current.data > value) {
+        parent = current;
+        current = current.left;
+      } else if (current.data < value) {
+        parent = current;
+        current = current.right;
+      } else {
+        // Node to be deleted is found
+        if (current.left === null && current.right === null) {
+          // Case 1: Node is a leaf
+          this.#handleLeafNode(parent, value);
+        } else if (current.left === null) {
+          // Case 2: Node has only a right child
+          this.#handleSingleChildNodeDeletion(parent, current, current.right);
+        } else if (current.right === null) {
+          // Case 3: Node has only a right child
+          this.#handleSingleChildNodeDeletion(parent, current, current.left);
+        } else {
+          // Case 4: Node has both left and right children
+          this.#handleTwoChildrenNodeDeletion(current);
+        }
+
+        return true;
+      }
+    }
+
+    console.log('Node not found: ', value);
+    return false;
   }
 
   deleteRecursive(value) {
@@ -248,30 +263,19 @@ class Tree {
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-// for (let i = 0; i < 24; i++) {
-//   // if (i === 17 || i === 16) continue;
-//   array.push(i);
-// }
+
 const BST = new Tree(array);
-// BST.insertIterative(2);
-BST.insertRecursive(2);
-console.log('tree before deletion');
+console.log('TREE BEFORE DELETION');
 BST.prettyPrint(BST.root);
-// console.log('delete a leaf node');
-//BST.deleteIterative(17); // turns node - 16 to leaf node;
-//console.log('delete another leaf node');
-//BST.deleteIterative(16); // tree no longer balanced;
-
-BST.deleteIterative(11); // turns node - 10 to a node with a left child;
-console.log('delete a node with only a right child');
-BST.deleteIterative(6);
-console.log('delete a node with only a left child');
-BST.deleteIterative(10);
-console.log('delete a node with both children');
-BST.deleteIterative(8);
-console.log('delete a node with both children');
-BST.deleteIterative(15);
-
-console.log(BST.find(1));
-console.log('tree after deletion');
+console.log('delete a leaf node');
+BST.deleteIterative(3);
+console.log('delete a leaf node');
+BST.deleteIterative(7);
+console.log('delete node with only one right child');
+BST.deleteIterative(5);
+console.log('delete node with only one left child');
+BST.deleteIterative(4)
+console.log('delete node with two children');
+BST.deleteIterative(67)
+console.log('TREE AFTER DELETION');
 BST.prettyPrint(BST.root);

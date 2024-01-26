@@ -297,6 +297,15 @@ class Tree {
       return values;
     }
   }
+
+  height(node) {
+    if (node === null) return -1;
+
+    let leftHeight = this.height(node.left);
+    let rightHeight = this.height(node.right);
+
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];

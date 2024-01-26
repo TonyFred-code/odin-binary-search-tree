@@ -306,6 +306,27 @@ class Tree {
 
     return Math.max(leftHeight, rightHeight) + 1;
   }
+
+  depth(node) {
+    if (node === null) return 0;
+
+    let depthValue = 0;
+    let start = this.root;
+
+    while (start) {
+      if (start.data === node.data) {
+        return depthValue;
+      } else if (node.data > start.data) {
+        start = start.right;
+      } else if (node.data < start.data) {
+        start = start.left;
+      }
+      depthValue += 1;
+    }
+
+    // Node not found, return a special value
+    return -1;
+  }
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
@@ -326,3 +347,5 @@ const BST = new Tree(array);
 // console.log('TREE AFTER DELETION');
 console.log(BST.levelOrderIterative());
 BST.prettyPrint();
+console.log(BST.depth(BST.find(3)));
+console.log(BST.height(BST.find(128)));

@@ -266,7 +266,7 @@ class Tree {
       }
     }
 
-    return undefined;
+    return null;
   }
 
   levelOrderIterative(callbackFnc) {

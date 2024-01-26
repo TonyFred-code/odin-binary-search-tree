@@ -73,7 +73,11 @@ class Tree {
     }
     console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
     if (node.left !== null) {
-      this.#prettyPrintHelper(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+      this.#prettyPrintHelper(
+        node.left,
+        `${prefix}${isLeft ? '    ' : '│   '}`,
+        true
+      );
     }
   }
 
@@ -271,10 +275,13 @@ class Tree {
 
     while (queue.length !== 0) {
       const node = queue.shift();
-      if (node === null) break;
-      nodes.push(node);
-      if (node.right !== null) queue.push(node.right);
-      if (node.left !== null) queue.push(node.left);
+
+      if (node) {
+        nodes.push(node);
+
+        if (node.right) queue.push(node.right);
+        if (node.left) queue.push(node.left);
+      }
     }
 
     if (callbackFnc && typeof callbackFnc === 'function') {

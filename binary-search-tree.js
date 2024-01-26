@@ -56,12 +56,16 @@ class Tree {
     return root;
   }
 
-  prettyPrint(node, prefix = '', isLeft = true) {
+  prettyPrint() {
+    this.#prettyPrintHelper(this.root);
+  }
+
+  #prettyPrintHelper(node, prefix = '', isLeft = true) {
     if (node === null) {
       return;
     }
     if (node.right !== null) {
-      this.prettyPrint(
+      this.#prettyPrintHelper(
         node.right,
         `${prefix}${isLeft ? '│   ' : '    '}`,
         false
@@ -69,7 +73,7 @@ class Tree {
     }
     console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
     if (node.left !== null) {
-      this.prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+      this.#prettyPrintHelper(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     }
   }
 
@@ -265,7 +269,7 @@ class Tree {
     const queue = [this.root];
     const nodes = [];
 
-    while(queue.length !== 0) {
+    while (queue.length !== 0) {
       const node = queue.shift();
       if (node === null) break;
       nodes.push(node);
@@ -278,7 +282,7 @@ class Tree {
         callbackFnc(node);
       }
     } else {
-      const values = []
+      const values = [];
       for (let node of nodes) {
         values.push(node.data);
       }
@@ -286,8 +290,6 @@ class Tree {
       return values;
     }
   }
-
-
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
@@ -306,5 +308,5 @@ const BST = new Tree(array);
 // console.log('delete node with two children');
 // BST.deleteIterative(67)
 // console.log('TREE AFTER DELETION');
-console.log(BST.levelOrderIterative())
-BST.prettyPrint(BST.root);
+console.log(BST.levelOrderIterative());
+BST.prettyPrint();

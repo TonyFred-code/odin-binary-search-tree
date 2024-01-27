@@ -327,6 +327,23 @@ class Tree {
     // Node not found, return a special value
     return -1;
   }
+
+  isBalanced() {
+    return this.#isBalancedHelper(this.root) !== -1;
+  }
+
+  #isBalancedHelper(node) {
+    if (node === null) return 0;
+
+    const leftHeight = this.#isBalancedHelper(node.left);
+    if (leftHeight === -1) return -1;
+
+    const rightHeight = this.#isBalancedHelper(node.right);
+    if (rightHeight === -1) return -1;
+
+    if (Math.abs(leftHeight - rightHeight) > 1) return -1;
+    else return Math.max(leftHeight, rightHeight) + 1;
+  }
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
@@ -349,3 +366,4 @@ console.log(BST.levelOrderIterative());
 BST.prettyPrint();
 console.log(BST.depth(BST.find(3)));
 console.log(BST.height(BST.find(128)));
+console.log(BST.isBalanced());

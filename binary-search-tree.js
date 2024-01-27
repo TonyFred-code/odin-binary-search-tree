@@ -344,26 +344,35 @@ class Tree {
     if (Math.abs(leftHeight - rightHeight) > 1) return -1;
     else return Math.max(leftHeight, rightHeight) + 1;
   }
+
+  reBalance() {
+    if (!this.isBalanced()) {
+      this.root = this.#buildTree(this.levelOrderIterative());
+    }
+  }
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 const BST = new Tree(array);
-// console.log('TREE BEFORE DELETION');
-// BST.prettyPrint(BST.root);
-// console.log('delete a leaf node');
-// BST.deleteIterative(3);
-// console.log('delete a leaf node');
-// BST.deleteIterative(7);
-// console.log('delete node with only one right child');
-// BST.deleteIterative(5);
-// console.log('delete node with only one left child');
-// BST.deleteIterative(4)
-// console.log('delete node with two children');
-// BST.deleteIterative(67)
-// console.log('TREE AFTER DELETION');
+console.log('TREE BEFORE DELETION');
+BST.prettyPrint(BST.root);
+console.log('delete a leaf node');
+BST.deleteIterative(3);
+console.log('delete a leaf node');
+BST.deleteIterative(7);
+console.log('delete node with only one right child');
+BST.deleteIterative(5);
+console.log('delete node with only one left child');
+BST.deleteIterative(4);
+console.log('delete node with two children');
+BST.deleteIterative(67);
+console.log('TREE AFTER DELETION');
 console.log(BST.levelOrderIterative());
 BST.prettyPrint();
 console.log(BST.depth(BST.find(3)));
 console.log(BST.height(BST.find(128)));
 console.log(BST.isBalanced());
+BST.reBalance();
+console.log(BST.isBalanced());
+BST.prettyPrint();

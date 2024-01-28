@@ -131,6 +131,82 @@ class Tree {
     return root;
   }
 
+  deleteRecursive(value) {
+    this.#deleteRecursiveHelper(this.root, value);
+  }
+
+  #deleteRecursiveHelper(root, value) {
+    if (root === null) {
+      return root;
+    }
+
+    if (root.data > value) {
+      root.left = this.#deleteRecursiveHelper(root.left, value);
+      return root;
+    } else if (root.data < value) {
+      root.right = this.#deleteRecursiveHelper(root.right, value);
+      return root;
+    }
+
+    if (root.left === null) {
+      return root.right;
+    } else if (root.right === null) {
+      return root.left;
+    } else {
+      let parent = root;
+
+      let successor = root.right;
+      while (successor.left !== null) {
+        parent = successor;
+        successor = successor.left;
+      }
+
+      if (parent !== root) {
+        parent.left = successor.right;
+      } else {
+        parent.right = successor.right;
+      }
+
+      root.data = successor.data;
+
+      return root;
+    }
+  }
+
+  deleteIterative(value) {
+    let parent = null;
+    let current = this.root;
+
+    while (current !== null) {
+      if (current.data > value) {
+        parent = current;
+        current = current.left;
+      } else if (current.data < value) {
+        parent = current;
+        current = current.right;
+      } else {
+        // Node to be deleted is found
+        if (current.left === null && current.right === null) {
+          // Case 1: Node is a leaf
+          this.#handleLeafNode(parent, value);
+        } else if (current.left === null) {
+          // Case 2: Node has only a right child
+          this.#handleSingleChildNodeDeletion(parent, current, current.right);
+        } else if (current.right === null) {
+          // Case 3: Node has only a right child
+          this.#handleSingleChildNodeDeletion(parent, current, current.left);
+        } else {
+          // Case 4: Node has both left and right children
+          this.#handleTwoChildrenNodeDeletion(current);
+        }
+
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   #handleLeafNode(parent, value) {
     if (parent !== null) {
       // Determine if it's the left or right child
@@ -175,82 +251,6 @@ class Tree {
     }
 
     current.data = successor.data;
-  }
-
-  deleteIterative(value) {
-    let parent = null;
-    let current = this.root;
-
-    while (current !== null) {
-      if (current.data > value) {
-        parent = current;
-        current = current.left;
-      } else if (current.data < value) {
-        parent = current;
-        current = current.right;
-      } else {
-        // Node to be deleted is found
-        if (current.left === null && current.right === null) {
-          // Case 1: Node is a leaf
-          this.#handleLeafNode(parent, value);
-        } else if (current.left === null) {
-          // Case 2: Node has only a right child
-          this.#handleSingleChildNodeDeletion(parent, current, current.right);
-        } else if (current.right === null) {
-          // Case 3: Node has only a right child
-          this.#handleSingleChildNodeDeletion(parent, current, current.left);
-        } else {
-          // Case 4: Node has both left and right children
-          this.#handleTwoChildrenNodeDeletion(current);
-        }
-
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  deleteRecursive(value) {
-    this.#deleteRecursiveHelper(this.root, value);
-  }
-
-  #deleteRecursiveHelper(root, value) {
-    if (root === null) {
-      return root;
-    }
-
-    if (root.data > value) {
-      root.left = this.#deleteRecursiveHelper(root.left, value);
-      return root;
-    } else if (root.data < value) {
-      root.right = this.#deleteRecursiveHelper(root.right, value);
-      return root;
-    }
-
-    if (root.left === null) {
-      return root.right;
-    } else if (root.right === null) {
-      return root.left;
-    } else {
-      let parent = root;
-
-      let successor = root.right;
-      while (successor.left !== null) {
-        parent = successor;
-        successor = successor.left;
-      }
-
-      if (parent !== root) {
-        parent.left = successor.right;
-      } else {
-        parent.right = successor.right;
-      }
-
-      root.data = successor.data;
-
-      return root;
-    }
   }
 
   find(value) {
@@ -447,26 +447,6 @@ BST.insertRecursive(4);
 BST.insertRecursive(2);
 BST.insertRecursive(1);
 
-// console.log('TREE BEFORE DELETION');
-// BST.prettyPrint(BST.root);
-// console.log('delete a leaf node');
-// BST.deleteIterative(3);
-// console.log('delete a leaf node');
-// BST.deleteIterative(7);
-// console.log('delete node with only one right child');
-// BST.deleteIterative(5);
-// console.log('delete node with only one left child');
-// BST.deleteIterative(4);
-// console.log('delete node with two children');
-// BST.deleteIterative(67);
-// console.log('TREE AFTER DELETION');
-// console.log(BST.levelOrderIterative());
-// BST.prettyPrint();
-// console.log(BST.depth(BST.find(3)));
-// console.log(BST.height(BST.find(128)));
-// console.log(BST.isBalanced());
-// BST.reBalance();
-// console.log(BST.isBalanced());
 BST.prettyPrint();
 console.log('printing as pre-order');
 BST.preOrder((n) => console.log(n.data));

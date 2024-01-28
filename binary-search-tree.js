@@ -86,7 +86,7 @@ class Tree {
 
     if (this.root === null) {
       this.root = node;
-      return;
+      return true;
     }
 
     let prev = null;
@@ -99,14 +99,18 @@ class Tree {
       } else if (temp.data < value) {
         prev = temp;
         temp = temp.right;
+      } else if (temp.data === value) {
+        return false;
       }
     }
 
     if (prev.data > value) {
       prev.left = node;
-    } else {
+    } else if (prev.data < value) {
       prev.right = node;
     }
+
+    return true;
   }
 
   insertRecursive(value) {
@@ -379,9 +383,17 @@ class Tree {
   }
 }
 
-const array = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'I', 'J', 'K'];
+// const array = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'I', 'J', 'K'];
+// const array = [1, 2, 3, 4, 5, 7];
 
-const BST = new Tree(array);
+const BST = new Tree();
+BST.insertIterative(5);
+BST.insertIterative(7);
+BST.insertIterative(3);
+BST.insertIterative(4);
+BST.insertIterative(3);
+BST.insertIterative(1);
+
 // console.log('TREE BEFORE DELETION');
 // BST.prettyPrint(BST.root);
 // console.log('delete a leaf node');

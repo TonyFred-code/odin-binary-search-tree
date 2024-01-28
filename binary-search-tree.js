@@ -298,6 +298,33 @@ class Tree {
     }
   }
 
+  preOrder(callbackFnc) {
+    const nodes = [];
+
+    function preOrderHelper(node) {
+      if (node === null) return;
+
+      nodes.push(node);
+      preOrderHelper(node.left);
+      preOrderHelper(node.right);
+    }
+
+    preOrderHelper(this.root);
+
+    if (callbackFnc && typeof callbackFnc === 'function') {
+      for (let node of nodes) {
+        callbackFnc(node);
+      }
+    } else {
+      const values = [];
+      for (let node of nodes) {
+        values.push(node.data);
+      }
+
+      return values;
+    }
+  }
+
   height(node) {
     if (node === null) return -1;
 
@@ -352,27 +379,27 @@ class Tree {
   }
 }
 
-const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const array = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'I', 'J', 'K'];
 
 const BST = new Tree(array);
-console.log('TREE BEFORE DELETION');
-BST.prettyPrint(BST.root);
-console.log('delete a leaf node');
-BST.deleteIterative(3);
-console.log('delete a leaf node');
-BST.deleteIterative(7);
-console.log('delete node with only one right child');
-BST.deleteIterative(5);
-console.log('delete node with only one left child');
-BST.deleteIterative(4);
-console.log('delete node with two children');
-BST.deleteIterative(67);
-console.log('TREE AFTER DELETION');
-console.log(BST.levelOrderIterative());
-BST.prettyPrint();
-console.log(BST.depth(BST.find(3)));
-console.log(BST.height(BST.find(128)));
-console.log(BST.isBalanced());
-BST.reBalance();
-console.log(BST.isBalanced());
+// console.log('TREE BEFORE DELETION');
+// BST.prettyPrint(BST.root);
+// console.log('delete a leaf node');
+// BST.deleteIterative(3);
+// console.log('delete a leaf node');
+// BST.deleteIterative(7);
+// console.log('delete node with only one right child');
+// BST.deleteIterative(5);
+// console.log('delete node with only one left child');
+// BST.deleteIterative(4);
+// console.log('delete node with two children');
+// BST.deleteIterative(67);
+// console.log('TREE AFTER DELETION');
+// console.log(BST.levelOrderIterative());
+// BST.prettyPrint();
+// console.log(BST.depth(BST.find(3)));
+// console.log(BST.height(BST.find(128)));
+// console.log(BST.isBalanced());
+// BST.reBalance();
+// console.log(BST.isBalanced());
 BST.prettyPrint();

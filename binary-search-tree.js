@@ -407,26 +407,4 @@ class Tree {
   }
 }
 
-// const array = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'I', 'J', 'K'];
-// const array = [1, 2, 3, 4, 5, 7];
-
-const BST = new Tree();
-BST.insertRecursive(5);
-BST.insertRecursive(7);
-BST.insertRecursive(3);
-BST.insertRecursive(4);
-BST.insertRecursive(2);
-BST.insertRecursive(1);
-
-BST.prettyPrint();
-console.log('printing as level-order');
-BST.levelOrderIterative((n) => console.log(n.data));
-
-console.log('printing as pre-order');
-BST.preOrder((n) => console.log(n.data));
-
-console.log('printing as post-order');
-BST.postOrder((n) => console.log(n.data));
-
-console.log('printing as in-order');
-BST.inOrder((n) => console.log(n.data));
+module.exports = Tree;

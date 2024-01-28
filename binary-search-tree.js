@@ -114,7 +114,7 @@ class Tree {
   }
 
   insertRecursive(value) {
-    this.#insertRecursiveHelper(this.root, value);
+   this.root = this.#insertRecursiveHelper(this.root, value);
   }
 
   #insertRecursiveHelper(root, value) {
@@ -387,12 +387,12 @@ class Tree {
 // const array = [1, 2, 3, 4, 5, 7];
 
 const BST = new Tree();
-BST.insertIterative(5);
-BST.insertIterative(7);
-BST.insertIterative(3);
-BST.insertIterative(4);
-BST.insertIterative(3);
-BST.insertIterative(1);
+BST.insertRecursive(5);
+BST.insertRecursive(7);
+BST.insertRecursive(3);
+BST.insertRecursive(4);
+BST.insertRecursive(2);
+BST.insertRecursive(1);
 
 // console.log('TREE BEFORE DELETION');
 // BST.prettyPrint(BST.root);

@@ -114,7 +114,7 @@ class Tree {
   }
 
   insertRecursive(value) {
-   this.root = this.#insertRecursiveHelper(this.root, value);
+    this.root = this.#insertRecursiveHelper(this.root, value);
   }
 
   #insertRecursiveHelper(root, value) {
@@ -208,7 +208,6 @@ class Tree {
       }
     }
 
-    console.log('Node not found: ', value);
     return false;
   }
 
@@ -329,6 +328,33 @@ class Tree {
     }
   }
 
+  postOrder(callbackFnc) {
+    const nodes = [];
+
+    function postOrderHelper(node) {
+      if (node === null) return;
+
+      postOrderHelper(node.left);
+      postOrderHelper(node.right);
+      nodes.push(node);
+    }
+
+    postOrderHelper(this.root);
+
+    if (callbackFnc && typeof callbackFnc === 'function') {
+      for (let node of nodes) {
+        callbackFnc(node);
+      }
+    } else {
+      const values = [];
+      for (let node of nodes) {
+        values.push(node.data);
+      }
+
+      return values;
+    }
+  }
+
   height(node) {
     if (node === null) return -1;
 
@@ -415,3 +441,8 @@ BST.insertRecursive(1);
 // BST.reBalance();
 // console.log(BST.isBalanced());
 BST.prettyPrint();
+console.log('printing as preorder');
+BST.preOrder((n) => console.log(n.data));
+console.log('printing as postorder');
+
+BST.postOrder((n) => console.log(n.data));

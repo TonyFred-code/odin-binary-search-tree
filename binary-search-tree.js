@@ -355,6 +355,33 @@ class Tree {
     }
   }
 
+  inOrder(callbackFnc) {
+    const nodes = [];
+
+    function inOrderHelper(node) {
+      if (node === null) return;
+
+      inOrderHelper(node.left);
+      nodes.push(node);
+      inOrderHelper(node.right);
+    }
+
+    inOrderHelper(this.root);
+
+    if (callbackFnc && typeof callbackFnc === 'function') {
+      for (let node of nodes) {
+        callbackFnc(node);
+      }
+    } else {
+      const values = [];
+      for (let node of nodes) {
+        values.push(node.data);
+      }
+
+      return values;
+    }
+  }
+
   height(node) {
     if (node === null) return -1;
 
@@ -441,8 +468,11 @@ BST.insertRecursive(1);
 // BST.reBalance();
 // console.log(BST.isBalanced());
 BST.prettyPrint();
-console.log('printing as preorder');
+console.log('printing as pre-order');
 BST.preOrder((n) => console.log(n.data));
-console.log('printing as postorder');
 
+console.log('printing as post-order');
 BST.postOrder((n) => console.log(n.data));
+
+console.log('printing as in-order');
+BST.inOrder((n) => console.log(n.data));

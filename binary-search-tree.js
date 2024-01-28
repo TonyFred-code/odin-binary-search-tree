@@ -272,6 +272,21 @@ class Tree {
     return null;
   }
 
+  #processNodes(nodes, callbackFnc) {
+    if (callbackFnc && typeof callbackFnc === 'function') {
+      for (let node of nodes) {
+        callbackFnc(node);
+      }
+    } else {
+      const values = [];
+      for (let node of nodes) {
+        values.push(node.data);
+      }
+
+      return values;
+    }
+  }
+
   levelOrderIterative(callbackFnc) {
     const queue = [this.root];
     const nodes = [];
@@ -287,18 +302,7 @@ class Tree {
       }
     }
 
-    if (callbackFnc && typeof callbackFnc === 'function') {
-      for (let node of nodes) {
-        callbackFnc(node);
-      }
-    } else {
-      const values = [];
-      for (let node of nodes) {
-        values.push(node.data);
-      }
-
-      return values;
-    }
+    return this.#processNodes(nodes, callbackFnc);
   }
 
   preOrder(callbackFnc) {
@@ -314,18 +318,7 @@ class Tree {
 
     preOrderHelper(this.root);
 
-    if (callbackFnc && typeof callbackFnc === 'function') {
-      for (let node of nodes) {
-        callbackFnc(node);
-      }
-    } else {
-      const values = [];
-      for (let node of nodes) {
-        values.push(node.data);
-      }
-
-      return values;
-    }
+    return this.#processNodes(nodes, callbackFnc);
   }
 
   postOrder(callbackFnc) {
@@ -341,18 +334,7 @@ class Tree {
 
     postOrderHelper(this.root);
 
-    if (callbackFnc && typeof callbackFnc === 'function') {
-      for (let node of nodes) {
-        callbackFnc(node);
-      }
-    } else {
-      const values = [];
-      for (let node of nodes) {
-        values.push(node.data);
-      }
-
-      return values;
-    }
+    return this.#processNodes(nodes, callbackFnc);
   }
 
   inOrder(callbackFnc) {
@@ -368,18 +350,7 @@ class Tree {
 
     inOrderHelper(this.root);
 
-    if (callbackFnc && typeof callbackFnc === 'function') {
-      for (let node of nodes) {
-        callbackFnc(node);
-      }
-    } else {
-      const values = [];
-      for (let node of nodes) {
-        values.push(node.data);
-      }
-
-      return values;
-    }
+    return this.#processNodes(nodes, callbackFnc);
   }
 
   height(node) {
@@ -448,6 +419,9 @@ BST.insertRecursive(2);
 BST.insertRecursive(1);
 
 BST.prettyPrint();
+console.log('printing as level-order');
+BST.levelOrderIterative((n) => console.log(n.data));
+
 console.log('printing as pre-order');
 BST.preOrder((n) => console.log(n.data));
 
